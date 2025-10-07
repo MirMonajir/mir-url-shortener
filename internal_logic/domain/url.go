@@ -1,4 +1,4 @@
-package model
+package domain
 
 import (
     "errors"
@@ -22,5 +22,5 @@ func NewURL(originalUrl string) (*URL, error) {
     if err != nil || parsed.Scheme == "" || parsed.Host == "" {
         return nil, errors.New("invalid URL format")
     }
-    return &URL{Original: orig}, nil
+    return &URL{OriginalUrl: original}, nil
 }
