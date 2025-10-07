@@ -5,6 +5,7 @@ import (
 	"sync"
     "sort"
 	"net/url"
+	"golang.org/x/net/publicsuffix"
 	"math/rand"
 	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 )
@@ -108,9 +109,16 @@ func generateShortUrl() string {
 }
 
 func extractDomain(original string) string {
-	u, err := url.Parse(original)
-	if err != nil {
-		return ""
-	}
-	return u.Hostname()
+	 u, err := url.Parse(original)
+    if err != nil {
+        return ""
+    }
+
+    host := u.Hostname()
+    domain, err := publicsuffix.EffectiveTLDPlusOne(host)
+    if err != nil {
+        // fallback to original host if error
+        return host
+    }
+    return domain
 }

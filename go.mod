@@ -2,7 +2,10 @@ module github.com/MirMonajir/mir-url-shortener
 
 go 1.25.1
 
-require github.com/gin-gonic/gin v1.11.0
+require (
+	github.com/gin-gonic/gin v1.11.0
+	golang.org/x/net v0.44.0
+)
 
 require (
 	github.com/bytedance/gopkg v0.1.3 // indirect
@@ -31,7 +34,6 @@ require (
 	golang.org/x/arch v0.21.0 // indirect
 	golang.org/x/crypto v0.42.0 // indirect
 	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
