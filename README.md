@@ -49,3 +49,20 @@ The service shortens URLs, resolves short URLs to their original form, and provi
    go run ./cmd/main.go
 
 3. The server will start on http://localhost:8080
+
+
+### Running with Docker
+
+1. Pull the Docker image from Docker Hub:
+
+docker pull mirmonajir/mir-url-shortener:latest
+
+
+2. Run the container:
+
+docker run -p 8080:8080 mirmonajir/mir-url-shortener:latest
+
+
+Access the service at:
+
+http://localhost:8080
