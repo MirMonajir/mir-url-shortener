@@ -42,10 +42,10 @@ The service shortens URLs, resolves short URLs to their original form, and provi
 
    ```bash
    git clone https://github.com/<your-username>/mir-url-shortener.git
-   cd mir-url-shortener```
+   cd mir-url-shortener
 
 2. Run the server:
    ```bash
-   go run ./cmd/main.go```
+   go run ./cmd/main.go
 
 3. The server will start on http://localhost:8080
