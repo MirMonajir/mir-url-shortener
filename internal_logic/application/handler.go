@@ -1,10 +1,10 @@
-package handler
+package application
 
 import (
     "net/http"
-
+"log"
     "github.com/gin-gonic/gin"
-    "github.com/MirMonajir/mir-url-shortener/internal/domain"
+    "github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 )
 
 type HTTPHandler struct {
@@ -37,12 +37,14 @@ func (h *HTTPHandler) ShortenURL(c *gin.Context) {
 }
 
 func (h *HTTPHandler) Redirect(c *gin.Context) {
-    code := c.Param("code")
+    code := c.Param("shortenedurl")
+	log.Printf("Redirect requested for code: %s", code)
     orig, err := h.shortener.Resolve(code)
     if err != nil {
-        c.JSON(http.StatusNotFound, gin.H{"error": "URL not found"})
+        c.JSON(http.StatusNotFound, err.Error())
         return
     }
+	log.Printf("Redirecting code %s to %s", code, orig)
     c.Redirect(http.StatusFound, orig)
 }
 

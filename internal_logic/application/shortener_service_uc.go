@@ -1,9 +1,9 @@
-package service
+package application
 
 import (
     "fmt"
 
-    "github.com/MirMonajir/mir-url-shortener/internal/domain"
+    "github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 )
 
 type ShortenerService struct {
@@ -24,8 +24,8 @@ func (s *ShortenerService) Shorten(original string) (string, error) {
     if err != nil {
         return "", err
     }
-    // return full URL, e.g. https://yourdomain.com/{code}
-    return fmt.Sprintf("http://localhost:8080/%s", code), nil
+    // return full URL, e.g. https://mir.com/{code}
+    return fmt.Sprintf("https://mir.com/%s", code), nil
 }
 
 func (s *ShortenerService) Resolve(shortUrl string) (string, error) {

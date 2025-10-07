@@ -3,9 +3,12 @@ package infrastructure
 import (
 	"errors"
 	"sync"
-
-	"github.com/MirMonajir/mir-url-shortener/internal/domain"
+    "sort"
+	"net/url"
+	"math/rand"
+	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 )
+const characterset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 type InMemoryStore struct {
 	mutex           sync.RWMutex
@@ -31,7 +34,7 @@ func (s *InMemoryStore) Save(u *domain.URL) (string, error) {
 		return short, nil
 	}
 	// generate a new shortened URL
-	shortUrl := generateShortUrl(len(s.originalToShort) + 1)
+	shortUrl := generateShortUrl()
 	u.ShortenedUrl = shortUrl
 	s.originalToShort[u.OriginalUrl] = shortUrl
 	s.shortToOriginal[shortUrl] = u.OriginalUrl
@@ -94,9 +97,14 @@ func (s *InMemoryStore) TopDomains(n int) map[string]int {
 
 // helper functions
 
-func generateShortUrl(id int) string {
-	// convert id to base62 string etc.
-	return fmt.Sprintf("%d", id)
+// generates the shortenedCode
+func generateShortUrl() string {
+    length := 6
+    b := make([]byte, length)
+    for i := range b {
+        b[i] = characterset[rand.Intn(len(characterset))]
+    }
+    return string(b)
 }
 
 func extractDomain(original string) string {

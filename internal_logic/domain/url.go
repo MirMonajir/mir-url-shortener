@@ -13,14 +13,14 @@ type URL struct {
 
 // NewURL constructor validates the original URL
 func NewURL(originalUrl string) (*URL, error) {
-    original = strings.TrimSpace(originalUrl)
-    if original == "" {
+    originalUrl = strings.TrimSpace(originalUrl)
+    if originalUrl == "" {
         return nil, errors.New("The provided URL is empty, please provide a valid url")
     }
     // Basic validation
-    parsed, err := url.Parse(original)
+    parsed, err := url.Parse(originalUrl)
     if err != nil || parsed.Scheme == "" || parsed.Host == "" {
         return nil, errors.New("invalid URL format")
     }
-    return &URL{OriginalUrl: original}, nil
+    return &URL{OriginalUrl: originalUrl}, nil
 }

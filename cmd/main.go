@@ -8,16 +8,16 @@ import (
 
 func main() {
     // Initialising the dependencies
-    inMemoryStore := storage.NewInMemoryStore()
-    shortenerService := service.NewShortenerService(inMemStore)
+    inMemoryStore := infrastructure.NewInMemoryStore()
+    shortenerService := application.NewShortenerService(inMemoryStore)
 
     // Setup gin router
     r := gin.Default()
-    h := handler.NewHTTPHandler(shortenerService)
+    h := application.NewHTTPHandler(shortenerService)
 
     // Routes
     r.POST("/shortenurl", h.ShortenURL)
-    r.GET("/:statuscode", h.Redirect)
+    r.GET("/:shortenedurl", h.Redirect)
     r.GET("/appmetrics", h.Metrics)
 
     // Start the application
