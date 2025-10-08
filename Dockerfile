@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mir-url-shortener ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mir-url-shortener ./cmd
 
 # Stage 2: Minimal Alpine image
 FROM alpine:latest

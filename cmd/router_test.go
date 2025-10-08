@@ -12,7 +12,7 @@ import (
 )
 
 func TestShortenAndRedirect(t *testing.T) {
-	r := setupRouter()
+	r := SetupRouter()
 
 	// Prepare the json body for the POST request
 	jsonBody := `{"URL":"https://google.com"}`

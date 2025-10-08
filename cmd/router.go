@@ -7,7 +7,7 @@ import (
 )
 
 // setupRouter initializes the server routes and dependencies but DOES NOT start it.
-func setupRouter() *gin.Engine {
+func SetupRouter() *gin.Engine {
 	inMemoryStore := infrastructure.NewInMemoryStore()
 	shortenerService := application.NewShortenerService(inMemoryStore)
 
