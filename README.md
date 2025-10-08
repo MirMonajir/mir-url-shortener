@@ -41,7 +41,7 @@ The service shortens URLs, resolves short URLs to their original form, and provi
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/<your-username>/mir-url-shortener.git
+   git clone https://github.com/MirMonajir/mir-url-shortener.git
    cd mir-url-shortener
 
 2. Run the server:
@@ -73,8 +73,8 @@ http://localhost:8080
 ### This project includes a Makefile to simplify common development tasks. Use the following commands inside the project root directory:
 
 1. Run All Tests:
-   ``` bash 
-    make test
+   ```bash 
+      make test
 
 2. Run Linter (golangci-lint)
    ```bash
