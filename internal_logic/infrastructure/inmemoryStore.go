@@ -2,13 +2,14 @@ package infrastructure
 
 import (
 	"errors"
-	"sync"
-    "sort"
-	"net/url"
+	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 	"golang.org/x/net/publicsuffix"
 	"math/rand"
-	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
+	"net/url"
+	"sort"
+	"sync"
 )
+
 const characterset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 type InMemoryStore struct {
@@ -73,7 +74,7 @@ func (s *InMemoryStore) TopDomains(n int) map[string]int {
 
 	//sort by counts
 	result := make(map[string]int)
-	
+
 	type keyValue struct {
 		Key   string
 		Value int
@@ -95,30 +96,29 @@ func (s *InMemoryStore) TopDomains(n int) map[string]int {
 	return result
 }
 
-
 // helper functions
 
 // generates the shortenedCode
 func generateShortUrl() string {
-    length := 6
-    b := make([]byte, length)
-    for i := range b {
-        b[i] = characterset[rand.Intn(len(characterset))]
-    }
-    return string(b)
+	length := 6
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = characterset[rand.Intn(len(characterset))]
+	}
+	return string(b)
 }
 
 func extractDomain(original string) string {
-	 u, err := url.Parse(original)
-    if err != nil {
-        return ""
-    }
+	u, err := url.Parse(original)
+	if err != nil {
+		return ""
+	}
 
-    host := u.Hostname()
-    domain, err := publicsuffix.EffectiveTLDPlusOne(host)
-    if err != nil {
-        // fallback to original host if error
-        return host
-    }
-    return domain
+	host := u.Hostname()
+	domain, err := publicsuffix.EffectiveTLDPlusOne(host)
+	if err != nil {
+		// fallback to original host if error
+		return host
+	}
+	return domain
 }
