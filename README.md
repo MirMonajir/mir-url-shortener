@@ -46,7 +46,7 @@ The service shortens URLs, resolves short URLs to their original form, and provi
 
 2. Run the server:
    ```bash
-   go run ./cmd/main.go
+   go run ./cmd
 
 3. The server will start on http://localhost:8080
 
