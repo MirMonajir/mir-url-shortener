@@ -68,3 +68,36 @@ The service shortens URLs, resolves short URLs to their original form, and provi
 Access the service at:
 
 http://localhost:8080
+
+
+### This project includes a Makefile to simplify common development tasks. Use the following commands inside the project root directory:
+
+1. Run All Tests:
+   ``` bash 
+    make test
+
+2. Run Linter (golangci-lint)
+   ```bash
+      make lint
+
+3. Run Code Formatter(go fmt)
+   ```bash
+      make fmt
+
+4. Start the service in detached mode with Docker:
+   ```bash
+      make up
+
+5. Stop the running service:
+   ```bash
+      make down
+
+6. Run gofmt and show diffs for format checking
+   ```bash 
+      fmt-check
+
+7. Run all the checks together
+   ```bash
+      make check      
+
+   
