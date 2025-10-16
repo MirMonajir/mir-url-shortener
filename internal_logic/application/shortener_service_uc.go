@@ -2,6 +2,7 @@ package application
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
 )
@@ -24,8 +25,9 @@ func (s *ShortenerService) Shorten(original string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	full_url := os.Getenv("SERVER_URL")
 	// return full URL, e.g. https://mir.com/{code}
-	return fmt.Sprintf("https://mir.com/%s", code), nil
+	return fmt.Sprintf("http://%s/%s", full_url, code), nil
 }
 
 func (s *ShortenerService) Resolve(shortUrl string) (string, error) {

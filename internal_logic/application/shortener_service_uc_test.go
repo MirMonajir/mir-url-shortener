@@ -2,6 +2,7 @@ package application
 
 import (
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
@@ -17,10 +18,14 @@ func TestShorten_ReturnSuccess(t *testing.T) {
 
 	mockRepo.On("Save", urlObj).Return("xyz123", nil)
 
+	// Set BASE_URL env variable for the test
+	os.Setenv("SERVER_URL", "localhost:8080")
+	defer os.Unsetenv("SERVER_URL") // clean up after test
+
 	shortURL, err := svc.Shorten(originalURL)
 
 	assert.NoError(t, err)
-	assert.Equal(t, "https://mir.com/xyz123", shortURL)
+	assert.Equal(t, "http://localhost:8080/xyz123", shortURL)
 	mockRepo.AssertExpectations(t)
 }
 

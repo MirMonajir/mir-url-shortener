@@ -2,12 +2,13 @@ package infrastructure
 
 import (
 	"errors"
-	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
-	"golang.org/x/net/publicsuffix"
 	"math/rand"
 	"net/url"
 	"sort"
 	"sync"
+
+	"github.com/MirMonajir/mir-url-shortener/internal_logic/domain"
+	"golang.org/x/net/publicsuffix"
 )
 
 const characterset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -35,8 +36,17 @@ func (s *InMemoryStore) Save(u *domain.URL) (string, error) {
 	if short, exists := s.originalToShort[u.OriginalUrl]; exists {
 		return short, nil
 	}
-	// generate a new shortened URL
-	shortUrl := generateShortUrl()
+	var shortUrl string
+	for {
+		// generate a new shortened url
+		shortUrl = generateShortUrl()
+
+		// Ensure the shortUrl hasn't already been used
+		if _, exists := s.shortToOriginal[shortUrl]; !exists {
+			break // It's unique, safe to use
+		}
+		// Otherwise, loop and generate a new one
+	}
 	u.ShortenedUrl = shortUrl
 	s.originalToShort[u.OriginalUrl] = shortUrl
 	s.shortToOriginal[shortUrl] = u.OriginalUrl

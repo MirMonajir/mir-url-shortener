@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
@@ -12,6 +13,9 @@ import (
 )
 
 func TestShortenAndRedirect(t *testing.T) {
+	// Ensure BASE_URL is set
+	os.Setenv("SERVER_URL", "localhost:8080")
+	defer os.Unsetenv("SERVER_URL")
 	r := SetupRouter()
 
 	// Prepare the json body for the POST request
@@ -32,9 +36,9 @@ func TestShortenAndRedirect(t *testing.T) {
 	var resp ShortenResponse
 	err := json.Unmarshal(w.Body.Bytes(), &resp)
 	assert.NoError(t, err)
-	assert.Contains(t, resp.ShortURL, "https://mir.com/")
+	assert.Contains(t, resp.ShortURL, "http://localhost:8080/")
 
-	code := strings.TrimPrefix(resp.ShortURL, "https://mir.com/")
+	code := strings.TrimPrefix(resp.ShortURL, "http://localhost:8080/")
 
 	// Redirect request
 	req = httptest.NewRequest("GET", "/"+code, nil)
