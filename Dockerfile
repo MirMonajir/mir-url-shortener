@@ -9,10 +9,17 @@ RUN apk add --no-cache git ca-certificates tzdata
 
 COPY go.mod go.sum ./
 # Ensure Go can fetch modules reliably using the default proxy and checksum DB
-# Set the env vars explicitly with go env to avoid shell expansion issues in some CI environments
-RUN go env -w GOPROXY="https://proxy.golang.org,direct" \
-    && go env -w GOSUMDB="sum.golang.org" \
-    && go mod download
+# Set the env vars explicitly and retry module download to handle transient CI network/sumdb issues
+RUN set -eux; \
+    go env -w GOPROXY="https://proxy.golang.org,direct"; \
+    go env -w GOSUMDB="sum.golang.org"; \
+    # Try a few times to download modules (handles transient network issues)
+    n=0; until [ "$n" -ge 3 ] || go mod download; do n=$((n+1)); echo "go mod download attempt $n failed, retrying..."; sleep $((n*2)); done; \
+    if ! go list -m all >/dev/null 2>&1; then \
+        echo "Module download/verification failed after retries; retrying with GOSUMDB=off (fallback)"; \
+        go env -w GOSUMDB="off"; \
+        go mod download; \
+    fi
 
 COPY . .
 
