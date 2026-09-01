@@ -139,9 +139,15 @@ func TestMetrics(t *testing.T) {
 	handler := NewHTTPHandler(service)
 
 	// Shorten multiple URLs from different domains
-	service.Shorten("https://www.example.com/path1")
-	service.Shorten("https://www.example.com/path2")
-	service.Shorten("https://www.google.com/search")
+	if _, err := service.Shorten("https://www.example.com/path1"); err != nil {
+		t.Fatalf("Shorten failed: %v", err)
+	}
+	if _, err := service.Shorten("https://www.example.com/path2"); err != nil {
+		t.Fatalf("Shorten failed: %v", err)
+	}
+	if _, err := service.Shorten("https://www.google.com/search"); err != nil {
+		t.Fatalf("Shorten failed: %v", err)
+	}
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/appmetrics", nil)
