@@ -12,6 +12,14 @@ func SetupRouter() *gin.Engine {
 	shortenerService := application.NewShortenerService(inMemoryStore)
 
 	r := gin.Default()
+
+	// Apply middleware in order
+	r.Use(application.RecoveryMiddleware())
+	r.Use(application.RequestLoggerMiddleware())
+	r.Use(application.ErrorLoggerMiddleware())
+	r.Use(application.SecurityHeadersMiddleware())
+	r.Use(application.CORSMiddleware())
+
 	h := application.NewHTTPHandler(shortenerService)
 
 	r.POST("/shortenurl", h.ShortenURL)
