@@ -1,0 +1,33 @@
+# Runtime Dockerfile that expects a prebuilt static binary `mir-url-shortener` in the build context
+FROM alpine:3.21
+
+# Install CA certificates and wget for healthcheck
+RUN apk add --no-cache ca-certificates tzdata wget
+
+# Create non-root user for container execution
+RUN addgroup -g 1000 app && \
+    adduser -D -u 1000 -G app app
+
+WORKDIR /home/app
+
+# Copy prebuilt binary from context
+COPY mir-url-shortener ./mir-url-shortener
+
+# Set ownership and permissions
+RUN chown -R app:app /home/app && \
+    chmod 755 mir-url-shortener
+
+# Add security labels
+LABEL maintainer="MirMonajir" \
+      description="URL Shortener Service - High-performance Go REST API" \
+      version="1.0.0"
+
+# Switch to non-root user
+USER app
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD test -z "$URL" || wget --quiet --tries=1 --spider http://localhost:8080/appmetrics || exit 1
+
+CMD ["./mir-url-shortener"]
