@@ -1,17 +1,32 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
-	//"github.com/joho/godotenv"
+	"github.com/MirMonajir/mir-url-shortener/internal_logic/infrastructure"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-//	err := godotenv.Load()if err != nil {
-//		log.Fatalf("Failed to load env file")}
+	// Load configuration with validation
+	cfg, err := infrastructure.LoadConfig()
+	if err != nil {
+		log.Fatalf("Failed to load configuration: %v", err)
+	}
 
+	// Set Gin mode
+	gin.SetMode(cfg.GinMode)
+
+	// Setup router with middleware and routes
 	r := SetupRouter()
-	if err := r.Run(":8080"); err != nil {
+
+	// Start server with configuration
+	addr := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
+	log.Printf("Starting URL Shortener server on %s (mode: %s)", addr, cfg.GinMode)
+
+	if err := r.Run(addr); err != nil {
 		log.Fatalf("Failed to start the URLShortener server: %v", err)
 	}
 }
+

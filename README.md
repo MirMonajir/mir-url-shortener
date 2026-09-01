@@ -20,10 +20,29 @@ The service shortens URLs, resolves short URLs to their original form, and provi
 
 ## Tech Stack
 
-- Go 1.25+
+- Go 1.20+
 - Gin Web Framework
 - Docker & Docker Compose
 - Go Modules
+
+## Documentation
+
+- **[Architecture](ARCHITECTURE.md)**: System design, patterns, and components
+- **[Security Policy](SECURITY.md)**: Security features, best practices, and vulnerability reporting
+- **[Dependency Policy](DEPENDENCY_POLICY.md)**: Dependency management and audit procedures
+- **[Configuration](/.env.example)**: Environment configuration template
+
+## Key Features
+
+- ✅ **Thread-Safe**: Concurrent request handling with mutex-protected storage
+- ✅ **Validated Input**: Comprehensive URL validation with SSRF prevention
+- ✅ **Structured Errors**: Type-safe error handling with proper HTTP codes
+- ✅ **Security Headers**: CSP, CORS, HSTS, X-Frame-Options
+- ✅ **Request Logging**: Structured logging with request/response details
+- ✅ **Configuration Management**: Environment-based configuration with validation
+- ✅ **Comprehensive Testing**: >80% code coverage with race condition detection
+- ✅ **Container Security**: Non-root user, specific version pins, health checks
+- ✅ **CI/CD Pipeline**: Multi-version builds, linting, coverage, and security scanning
 
 ---
 
