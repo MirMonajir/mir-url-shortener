@@ -8,7 +8,11 @@ WORKDIR /app
 RUN apk add --no-cache git ca-certificates tzdata
 
 COPY go.mod go.sum ./
-RUN go mod download
+# Ensure Go can fetch modules reliably using the default proxy and checksum DB
+ENV GOPROXY=https://proxy.golang.org,direct
+ENV GOSUMDB=sum.golang.org
+RUN go env -w GOPROXY="$GOPROXY" && go env -w GOSUMDB="$GOSUMDB" \
+    && go mod download
 
 COPY . .
 
