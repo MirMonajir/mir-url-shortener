@@ -54,10 +54,10 @@ type ValidationError struct {
 
 // ValidationErrors represents multiple validation errors
 type ValidationErrors struct {
-	Type   ErrorType          `json:"error_type"`
-	Message string             `json:"message"`
-	Errors []ValidationError   `json:"errors"`
-	Code   int                `json:"code"`
+	Type    ErrorType         `json:"error_type"`
+	Message string            `json:"message"`
+	Errors  []ValidationError `json:"errors"`
+	Code    int               `json:"code"`
 }
 
 // Error implements the error interface

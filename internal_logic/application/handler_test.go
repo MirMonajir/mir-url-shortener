@@ -156,6 +156,3 @@ func TestMetrics(t *testing.T) {
 	_ = json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Contains(t, response, "top_domains")
 }
-
-
-

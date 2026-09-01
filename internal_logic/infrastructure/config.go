@@ -20,9 +20,9 @@ type Config struct {
 // LoadConfig loads configuration from environment variables with validation
 func LoadConfig() (*Config, error) {
 	cfg := &Config{
-		Port:    8080,
-		Host:    "0.0.0.0",
-		GinMode: "debug",
+		Port:     8080,
+		Host:     "0.0.0.0",
+		GinMode:  "debug",
 		LogLevel: "info",
 	}
 
