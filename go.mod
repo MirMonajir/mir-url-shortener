@@ -1,6 +1,6 @@
 module github.com/MirMonajir/mir-url-shortener
 
-go 1.23
+go 1.24.0
 
 require (
 	github.com/gin-gonic/gin v1.11.0
