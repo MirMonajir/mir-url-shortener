@@ -1,5 +1,6 @@
 # Stage 1: Build static Go binary
-FROM golang:1.25.1-alpine3.21 AS builder
+# Use Go 1.23 to match go.mod and avoid builder/runtime mismatches
+FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
